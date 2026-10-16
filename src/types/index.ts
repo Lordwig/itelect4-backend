@@ -11,7 +11,7 @@ export interface Customer {
   email: string;
   role: "customer" | "staff" | "admin";
   isActive: boolean;
-  score: number;
+  points: number;
 }
 
 export interface Product {
@@ -60,3 +60,9 @@ export type NewPreOrderBody = Pick<
   PreOrder,
   "productName" | "quantity" | "pickupTime"
 >;
+
+// ===== GT4 PART 2: the third interface gets its own database type =====
+// Omit and Pick both produce a MAPPED type, and an interface is not one.
+// The toJSON transform in Product.ts takes Record<string, unknown>;
+// TypeScript hands it a mapped type happily and refuses an interface.
+export type ProductDoc = Pick<Product, "name" | "price" | "category">;

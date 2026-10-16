@@ -21,7 +21,7 @@ const customerSchema = new Schema<CustomerDoc>(
       default: "customer",
     },
     isActive: { type: Boolean, default: true },
-    score: { type: Number, default: 0 },
+    points: { type: Number, default: 0 },
 
     // The one field itelect4-project's Customer interface does not have.
     // select: false keeps it out of every query result unless a query
