@@ -10,6 +10,7 @@ import { connectDB } from "./config/db.js";
 import { authRouter } from "./routes/auth.js";
 import { productRouter } from "./routes/products.js";
 import { preOrderRouter } from "./routes/preorders.js";
+import { aiRouter } from "./routes/ai.js";
 
 // This file builds the app and stops. It never opens a port. server.ts
 // opens one on your laptop; on Vercel nothing does, and the platform
@@ -42,6 +43,7 @@ app.get("/api/health", (_req: Request, res: Response) => {
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/preorders", preOrderRouter);
+app.use("/api/ai", aiRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
