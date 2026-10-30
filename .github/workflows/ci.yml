@@ -1,0 +1,36 @@
+name: CI
+
+# "On every push": any branch, including gt6-tests, so the pull request
+# already has a result before anybody merges it.
+on: push
+
+jobs:
+  test:
+    # A fresh Linux computer, rebuilt for every run. Nothing from your
+    # laptop is on it: no node_modules, and no .env.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v7
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      # ci, not install: it installs exactly what package-lock.json says
+      # and fails if package.json and the lock file disagree.
+      - name: Install packages
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Run the tests
+        run: npm test
+        env:
+          # The tests sign a real token, and .env is not in the repo.
+          # This hands the job the secret you stored in GitHub:
+          # Settings > Secrets and variables > Actions.
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
